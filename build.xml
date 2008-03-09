@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="CajaTest" basedir="." default="jar">
+
+  <property name="caja"     value="../caja/src" />
+  <property name="src"      value="src/java" />
+  <property name="build"    value="build" />
+  <property name="classes"  value="classes" />
+  
+  <property name="org.json"     value="${caja}/third_party/java/json_simple/json_simple.jar" />
+  <property name="nu.validator" value="${caja}/third_party/java/htmlparser/htmlparser.jar" />
+  <property name="org.apache"   value="${caja}/third_party/java/jakarta_commons/commons-cli.jar" />
+
+  <target name="clean">
+    <delete dir="${classes}"/>
+    <delete dir="${build}"/>
+  </target>
+  
+  <target name="test">
+    <condition property="caja.exists" value="ok" else="FLAGRANT ERROR! ${caja} not found">
+      <available file="${caja}"/>
+    </condition>
+    <echo message="Checking caja: ${caja.exists}" />
+  </target>
+
+  <target name="compile" depends="test">
+    <mkdir dir="${classes}" />
+    <javac
+        srcdir="${src}"
+        destdir="${classes}"
+        sourcepath="${caja}/java"
+        classpath="${org.json}:${nu.validator}:${org.apache}">
+    </javac>
+    <!-- copy classes we need from jars -->
+    <unjar src="${org.json}" dest="${classes}"/>
+    <unjar src="${nu.validator}" dest="${classes}"/>
+    <unjar src="${org.apache}" dest="${classes}"/>
+    <!-- copy json resources we need from caja source -->
+    <copy todir="${classes}">
+      <fileset dir="${caja}/java" includes="**/*.json"/>
+    </copy>
+  </target>
+
+  <target name="jar" depends="compile">
+    <mkdir dir="${build}" />
+    <jar destfile="${build}/CajaTest.jar" basedir="${classes}">
+      <manifest>
+        <attribute name="Main-Class" value="CajaTest"/>
+      </manifest>
+    </jar>
+  </target>
+  
+  <target name="help">
+    <echo message="Usage: ant [-Dcaja=path/to/caja/src]" />
+  </target>
+
+</project>
