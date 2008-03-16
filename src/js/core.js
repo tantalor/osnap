@@ -83,6 +83,9 @@ Example 3. Extended and parameterized requests.
     callback: handlers
   });
 
+PLEASE NOTE: AppData is stored in JSON. Depends on
+Crockford's JSON.parse() and JSON.stringify().
+
 */
 
 Osnap.request = function (oArgs)
