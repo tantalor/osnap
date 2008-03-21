@@ -17,13 +17,11 @@ Arguments:
         derive the base URL for future calls from
 */
 
-// var Osnap = new Class({
-//     initialize: function (sRootId, urlStart) {
-//         // TODO: implement
-//     }
-//  });
-
-var Osnap = {};
+var Osnap = new Class({
+    initialize: function (sRootId, urlStart) {
+        // TODO: implement
+    }
+ });
 
 Osnap.oObjects = {
   owner: opensocial.DataRequest.PersonId.OWNER,
