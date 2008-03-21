@@ -17,11 +17,13 @@ Arguments:
         derive the base URL for future calls from
 */
 
-var Osnap = new Class({
-    initialize: function (sRootId, urlStart) {
-        // TODO: implement
-    }
- });
+// var Osnap = new Class({
+//     initialize: function (sRootId, urlStart) {
+//         // TODO: implement
+//     }
+//  });
+
+var Osnap = {};
 
 Osnap.oObjects = {
   owner: opensocial.DataRequest.PersonId.OWNER,
@@ -31,6 +33,7 @@ Osnap.oObjects = {
   viewer_data: opensocial.DataRequest.PersonId.VIEWER,
   update: opensocial.DataRequest.PersonId.VIEWER,
   first: opensocial.DataRequest.PeopleRequestFields.FIRST,
+  max: opensocial.DataRequest.PeopleRequestFields.MAX,
   profile: opensocial.DataRequest.PeopleRequestFields.PROFILE_DETAILS
 };
 
