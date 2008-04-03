@@ -6,6 +6,8 @@ License:
         MIT-style license.
 */
 
+if (typeof window.Osnap === 'undefined') window.Osnap = {};
+
 Osnap.oObjects = {
   owner: opensocial.DataRequest.PersonId.OWNER,
   viewer: opensocial.DataRequest.PersonId.VIEWER,
@@ -102,11 +104,12 @@ Osnap.request = function (oArgs)
     {
       if (sKey == 'update')
       {
+        // JSON-encode objects
+        Osnap.encode(oArgs[sKey]);
         // update requests
         for (var sDataKey in oArgs[sKey])
         {
-          var sDataValue = JSON.stringify(oArgs[sKey][sDataKey]);
-          oReq.add(fnMethod.call(oReq, sArg, sDataKey, sDataValue), sDataKey);
+          oReq.add(fnMethod.call(oReq, sArg, sDataKey, oArgs[sKey][sDataKey]), sDataKey);
         }
       } else if (typeof oArgs[sKey] == 'object')
       {
@@ -147,13 +150,32 @@ Osnap.params = function (oArgs)
 }
 
 /*
+Function: Osnap.encode
+        Encode object values as strings for serialization (in-place).
+        Specify obj.no_json=1 to avoid JSON encoding for obj.
+*/
+
+Osnap.encode = function (oVars)
+{
+  for (sKey in oVars)
+  {
+    // JSON-encode objects (if available)
+    if (window.JSON && typeof oVars[sKey] == 'object' && !oVars[sKey].no_json)
+    {
+      oVars[sKey] = JSON.stringify(oVars[sKey]);
+    }
+  }
+  return oVars;
+}
+
+/*
 Function: Osnap.vars
-        Maps objects to encoded strings, but lets strings pass through.
+        Maps objects to query strings, but lets strings pass through.
 */
 
 Osnap.vars = function (oVars)
 {
-  return typeof oVars == 'string' ? oVars : gadgets.io.encodeValues(oVars);
+  return typeof oVars == 'string' ? oVars : gadgets.io.encodeValues(Osnap.encode(oVars));
 }
 
 /*
