@@ -90,6 +90,7 @@ Function: Osnap.request
 Osnap.request = function (oArgs)
 {
   if (!oArgs) return;
+  oArgs.callback = oArgs.callback || function() {};
   
   var oReq = opensocial.newDataRequest();
   
@@ -209,6 +210,9 @@ Function: Osnap.net
 
 Osnap.net = function (oArgs)
 { 
+  if (!oArgs) return;
+  oArgs.callback = oArgs.callback || function() {};
+  
   var oParams = Osnap.params(oArgs);
   
   gadgets.io.makeRequest(
