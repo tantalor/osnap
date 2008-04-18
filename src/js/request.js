@@ -198,8 +198,9 @@ Function: Osnap.get
 
 Osnap.get = function (oArgs)
 {
+  var sVars = Osnap.vars(oArgs.vars);
   oArgs.method = 'get';
-  oArgs.url += '?'+Osnap.vars(oArgs.vars);
+  oArgs.url += sVars ? '?'+sVars : '';
   Osnap.net(oArgs);
 }
 
